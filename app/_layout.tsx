@@ -1,37 +1,37 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    return (
+        <ScrollView style={styles.container}>
+            {/* Header */}
+            <View style={styles.header}>
+                <Text style={styles.headerLogo}>SLTravelApp</Text>
+                <View style={styles.navMenu}>
+                    <Text style={styles.navItem}>Destinations</Text>
+                    <Text style={styles.navItem}>Tours</Text>
+                    <Text style={styles.navItem}>Bookings</Text>
+                    <Text style={styles.navItem}>About Us</Text>
+                    <Text style={styles.navItem}>Contact</Text>
+                </View>
+            </View>
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>© 2024 TravelApp. All rights reserved.</Text>
+            </View>
+        </ScrollView>
+    );
 }
+
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: '#fff' },
+    header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, backgroundColor: '#6200ea' },
+    headerLogo: { fontSize: 24, color: '#01ffff' },
+    navMenu: { flexDirection: 'row' },
+    navItem: { color: '#fff', marginLeft: 15 },
+
+    footer: { padding: 20, alignItems: 'center', backgroundColor: '#333' },
+    footerText: { color: '#fff' },
+});
+
