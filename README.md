@@ -31,7 +31,7 @@ To get a local copy up and running, follow these steps:
 
 1. Clone the repository
    ```sh
-   git clone https://github.com/your-username/React_native_project.git
+   https://github.com/Randika9991/React_native_project.git
 
 ## Usage
 
