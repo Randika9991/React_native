@@ -1,11 +1,22 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Link} from "expo-router";
 
 const playlist = [
-    { id: '1', name: 'YOHANI', songName: 'kella masurata dfdfg sgdfgdsgdsfjdngjnjgdgndsngds', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/login%20screen.png?raw=true' },
-    { id: '2', name: 'IRAJ', songName: 'kella', image: 'https://lankaonglobe.wordpress.com/wp-content/uploads/2013/05/irajweeraratne.jpg' },
-    { id: '3', name: 'EDWARD', songName: 'kella', image: 'https://cdns-images.dzcdn.net/images/artist/8438b0b18a992c7439b204acc4d1beeb/500x500.jpg' },
+    { id: '1', name: 'EDM', songName: 'kella masurata dfdfg sgdfgdsgdsfjdngjnjgdgndsngds', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134416.png?raw=true' },
+    { id: '2', name: 'TRAP', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134451.png?raw=true' },
+    { id: '3', name: 'LO-FI', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134533.png?raw=true' },
+    { id: '4', name: 'DRILL', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134627.png?raw=true' },
+
+];
+
+const Recent = [
+    { id: '1', name: 'YOHANI', songName: 'deep', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134416.png?raw=true' },
+    { id: '2', name: 'IRAJ', songName: 'lets me', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134627.png?raw=true' },
+    { id: '3', name: 'EDWARD', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134533.png?raw=true' },
+    { id: '4', name: 'TRAP', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134451.png?raw=true' },
+
 ];
 
 const HomeScreen = ({ navigation }) => {
@@ -37,14 +48,14 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.sectionTitle}>My playlist</Text>
                         <Icon name="chevron-forward" size={24} color="#fff" />
                     </View>
-                    <View style={styles.playlist}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScrollContainer}>
                         {playlist.map((item) => (
                             <TouchableOpacity key={item.id} style={styles.playlistCard}>
                                 <Image source={{ uri: item.image }} style={styles.playlistImage} />
                                 <Text style={styles.playlistLabel}>{item.name}</Text>
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </ScrollView>
                 </View>
 
                 <View style={styles.section}>
@@ -52,16 +63,31 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.sectionTitle}>Recently Songs</Text>
                         <Icon name="chevron-forward" size={24} color="#fff" />
                     </View>
-                    <View style={styles.playlist}>
-                        {playlist.map((item) => (
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScrollContainer}>
+                        {Recent.map((item) => (
                             <TouchableOpacity key={item.id} style={styles.playlistCard}>
                                 <Image source={{ uri: item.image }} style={styles.playlistImage} />
                                 <Text style={styles.playlistLabel}>{item.songName}</Text>
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </ScrollView>
                 </View>
             </ScrollView>
+            <View style={styles.bottomNav}>
+                <TouchableOpacity style={styles.navItem}>
+                    <Icon name="home-outline" size={30} color="#FFF"/>
+                    <Link href="/home" style={styles.navText}>Home</Link>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.navItem} >
+                    <Icon name="musical-notes-outline" size={30} color="#FFF"/>
+                    <Link href="/Songs" style={styles.navText}>Songs</Link>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.navItem}>
+                    <Icon name="albums-outline" size={30} color="#FFF"/>
+                    <Text style={styles.navText}>Albums</Text>
+                </TouchableOpacity>
+
+            </View>
         </View>
     );
 };
@@ -87,6 +113,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold',
+
     },
     section: {
         marginBottom: 20,
@@ -119,6 +146,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         marginTop: 5,
     },
+
+
     // Playlist
     playlist: {
         flexDirection: 'row',
@@ -126,6 +155,8 @@ const styles = StyleSheet.create({
     },
     playlistCard: {
         alignItems: 'center',
+        marginHorizontal: 10, // Add horizontal margin to create space between items
+        width: 100, // Set a fixed width
     },
     playlistImage: {
         width: 100,
@@ -137,6 +168,34 @@ const styles = StyleSheet.create({
         marginTop: 5,
         width: 100,
         textAlign: 'center',
+    },
+    bottomNav: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingVertical: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        borderTopColor: '#ffffff',
+        borderTopWidth: 1,
+
+        borderLeftColor: '#ffffff',
+        borderLeftWidth: 2,
+
+        borderRightColor: '#ffffff',
+        borderRightWidth: 2,
+
+        borderTopRightRadius: 50,
+        borderTopLeftRadius: 50,
+    },
+    navItem: {
+        alignItems: 'center',
+    },
+    navText: {
+        fontSize: 12,
+        marginTop: 3,
+        color:'#ffffff',
+    },
+    horizontalScrollContainer: {
+        paddingHorizontal: 5,
     },
 });
 
