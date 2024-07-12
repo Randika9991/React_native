@@ -1,163 +1,143 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, FlatList, TouchableOpacity, ImageBackground} from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Link} from "expo-router";
 
-const artists = [
-    { id: '1', name: 'YOHANI','songName': 'kella', image: 'https://m.media-amazon.com/images/M/MV5BMWRlMTA4ZjktOGE5Mi00NzkxLWIyNGMtZWUyMmQ3MzI2MzI4XkEyXkFqcGdeQXVyNDAzNDk0MTQ@._V1_FMjpg_UX1000_.jpg'},
-    { id: '2', name: 'IRAJ','songName': 'kella', image: 'https://lankaonglobe.wordpress.com/wp-content/uploads/2013/05/irajweeraratne.jpg'},
-    { id: '3', name: 'EDWARD ','songName': 'kella', image: 'https://cdns-images.dzcdn.net/images/artist/8438b0b18a992c7439b204acc4d1beeb/500x500.jpg'},
-    { id: '4', name: 'JAYA SRI','songName': 'kella', image: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQCdu67eIrSEYXmsm7P8f__KXIVWiLEPJOOigDMK0HU88OupL3t'},
+const playlist = [
+    { id: '1', name: 'YOHANI', songName: 'kella masurata dfdfg sgdfgdsgdsfjdngjnjgdgndsngds', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/login%20screen.png?raw=true' },
+    { id: '2', name: 'IRAJ', songName: 'kella', image: 'https://lankaonglobe.wordpress.com/wp-content/uploads/2013/05/irajweeraratne.jpg' },
+    { id: '3', name: 'EDWARD', songName: 'kella', image: 'https://cdns-images.dzcdn.net/images/artist/8438b0b18a992c7439b204acc4d1beeb/500x500.jpg' },
 ];
 
-const Home = ({ navigation }) => {
-    const artist = ({item}) => (
-        <View style={styles.artistCard}>
-            <Image style={styles.artistImage} source={{uri: item.image}}/>
-            <Text style={styles.artistName}>{item.name}</Text>
-        </View>
-    );
-
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <ImageBackground
-                source={require('../assets/images/home/2150821824.jpg')}
-                style={styles.backgroundImage}
-            >
-                {/* Header */}
-                <View style={styles.header}>
-                    <Icon name="menu" size={30} color="#FFF"/>
-                    <Text style={styles.headerTitle}>Library</Text>
-                    <TouchableOpacity style={styles.navItem}>
-                        <Icon name="search" size={30} color="#FFF"/>
-                    </TouchableOpacity>
+            <View style={styles.header}>
+                <Icon name="menu" size={30} color="#fff" />
+                <Text style={styles.headerTitle}>Music player</Text>
+                <Icon name="search" size={30} color="#fff" />
+            </View>
+
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitle}>Favorites</Text>
+                    </View>
+                    <View style={styles.favoritplaylist}>
+                        <TouchableOpacity style={styles.favoriteCard}>
+                            <Image source={require('../assets/images/home/favorite.png')} style={styles.favoriteImageCard} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.favoriteCard}>
+                            <Image source={require('../assets/images/home/resent.png')} style={styles.favoriteImageCard} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
-                {/* Artists */}
-                <FlatList
-                    data={artists}
-                    renderItem={artist}
-                    keyExtractor={(item) => item.id}
-                    numColumns={2}
-                    contentContainerStyle={styles.artistGrid}
-                />
-
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.navItem}>
-                        <Icon name="play-circle" size={30} color="#FFF" />
-                    </TouchableOpacity>
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitle}>My playlist</Text>
+                        <Icon name="chevron-forward" size={24} color="#fff" />
+                    </View>
+                    <View style={styles.playlist}>
+                        {playlist.map((item) => (
+                            <TouchableOpacity key={item.id} style={styles.playlistCard}>
+                                <Image source={{ uri: item.image }} style={styles.playlistImage} />
+                                <Text style={styles.playlistLabel}>{item.name}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
 
-                {/* Navigation Bar Click */}
-                <View style={styles.bottomNav}>
-                    <TouchableOpacity style={styles.navItem} >
-                        <Icon name="home-outline" size={30} color="#FFF"/>
-                        <Text style={styles.navText}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.navItem} >
-                        <Icon name="musical-notes-outline" size={30} color="#FFF"/>
-                        <Link href="/Songs" style={styles.navText}>Songs</Link>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.navItem}>
-                        <Icon name="albums-outline" size={30} color="#FFF"/>
-                        <Text style={styles.navText}>Albums</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.navItem}>
-                        <Icon name="person-outline" size={30} color="#FFF"/>
-                        <Text style={styles.navText}>Artists</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.navItem}>
-                        <Icon name="list-outline" size={30} color="#FFF"/>
-                        <Text style={styles.navText}>Playlists</Text>
-                    </TouchableOpacity>
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitle}>Recently Songs</Text>
+                        <Icon name="chevron-forward" size={24} color="#fff" />
+                    </View>
+                    <View style={styles.playlist}>
+                        {playlist.map((item) => (
+                            <TouchableOpacity key={item.id} style={styles.playlistCard}>
+                                <Image source={{ uri: item.image }} style={styles.playlistImage} />
+                                <Text style={styles.playlistLabel}>{item.songName}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
-            </ImageBackground>
+            </ScrollView>
         </View>
     );
-}
-
+};
 
 const styles = StyleSheet.create({
-
-    backgroundImage: {
-        width: '100%',
-        height: '100%',
-    },
-
-    // header
     container: {
         flex: 1,
-        // backgroundColor: 'rgba(81,85,85,0.99)',
-        backgroundColor: 'rgba(51,51,51,0.96)',
+        backgroundColor: '#000',
+        padding: 0,
+    },
+    scrollContainer: {
+        padding: 10,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 15,
+        marginTop: 24,
         borderBottomWidth: 1,
         borderBottomColor: '#ffffff',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',//backgroundColor black
     },
     headerTitle: {
+        color: '#fff',
         fontSize: 20,
-        fontWeight: 'bold',        //bold
-        color:'white',
+        fontWeight: 'bold',
     },
-
-    //body
-    artistGrid: {
-        paddingHorizontal: 10,
-        paddingTop: 30,
-
+    section: {
+        marginBottom: 20,
     },
-
-    artistCard: {
-        width: 122,    //image size custom
-        height: 122,
-        flex: 1,
-        margin: 10,
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: 10,
-        backgroundColor: 'rgba(255,255,255,0.6)',
+        marginBottom: 10,
     },
-    artistImage: {
-        width: 130,    //image size custom
-        height: 130,
-        flex: 1,
-        margin: 10,
-        alignItems: 'center',
-        backgroundColor: '#4b4848',
-        borderRadius: 10,
+    sectionTitle: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
-
-    artistName: {
-        width: 122,    //image size custom
-        height: 22,
-        fontSize: 16,
-        textAlign: 'center',
-        color:'rgb(9,0,0)',
-        borderRadius: 10,
-        marginBottom: 5,
-    },
-
-    //navBar
-    bottomNav: {
+    // Favorite
+    favoritplaylist: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingVertical: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        borderTopWidth: 1,
-        borderTopColor: '#ddd',
     },
-    navItem: {
+    favoriteCard: {
         alignItems: 'center',
     },
-    navText: {
-        fontSize: 12,
-        marginTop: 3,
-        color:'#ffffff',
+    favoriteImageCard: {
+        width: 170,
+        height: 100,
+        borderRadius: 10,
+    },
+    favoriteLabel: {
+        color: '#fff',
+        marginTop: 5,
+    },
+    // Playlist
+    playlist: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    playlistCard: {
+        alignItems: 'center',
+    },
+    playlistImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+    },
+    playlistLabel: {
+        color: '#fff',
+        marginTop: 5,
+        width: 100,
+        textAlign: 'center',
     },
 });
 
-export default Home;
+export default HomeScreen;

@@ -8,6 +8,12 @@ export default function Index() {
         <View style={{ flex: 1 }}>
             <Link href="/LoginScreen" style={{ flex: 1 }}>
                 <Loading />
+
+
+
+                {/*LoginScreen*/}
+                {/*home*/}
+                {/*Songs*/}
             </Link>
         </View>
     );
