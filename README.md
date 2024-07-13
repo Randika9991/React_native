@@ -43,6 +43,18 @@ To get a local copy up and running, follow these steps:
 
    ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/login%20screen.png)
 
+   2. SingUp page 
+
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233405.png)
+
+   2. Home page 
+
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233427.png)
+
+   4. Player 
+
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233437.png)
+
 ## Contributing
 
    ..
