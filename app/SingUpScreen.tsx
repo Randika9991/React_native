@@ -25,7 +25,7 @@ export default function SignUpScreen() {
                         <TextInput placeholder="Password" placeholderTextColor="#fff" secureTextEntry style={styles.input} />
                     </View>
                     <TouchableOpacity style={styles.signUpButton}>
-                        <Link href="/home">SINGUP</Link>
+                        <Link href="/Home">SINGUP</Link>
                     </TouchableOpacity>
                     <Text style={styles.loginText}>Already have an account?
                         <TouchableOpacity>

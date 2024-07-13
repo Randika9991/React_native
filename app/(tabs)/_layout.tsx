@@ -1,0 +1,78 @@
+import { Tabs } from 'expo-router';
+import React from 'react';
+import Icon from "react-native-vector-icons/Ionicons";
+import { Colors } from "../../constants/Colors";
+import { useColorScheme } from "../../hooks/useColorScheme";
+import { StyleSheet, View } from "react-native";
+
+export default function TabLayout() {
+    const colorScheme = useColorScheme();
+    return (
+        <View style={styles.container}>
+            <Tabs
+                screenOptions={{
+                    tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                    headerShown: false,
+                    tabBarStyle: styles.bottomNav,
+                }}
+            >
+                <Tabs.Screen
+                    name="Home"
+                    options={{
+                        title: 'Home',
+                        tabBarIcon: ({ focused }) => (
+                            <Icon name={focused ? 'home' : 'home-outline'} size={25} color="#FFF" />
+                        ),
+                    }}
+                />
+                <Tabs.Screen
+                    name="Songs"
+                    options={{
+                        title: 'Songs',
+                        tabBarIcon: ({ focused }) => (
+                            <Icon name={focused ? 'musical-notes' : 'musical-notes-outline'} size={25} color="#FFF" />
+                        ),
+                    }}
+                />
+                <Tabs.Screen
+                    name="Albums"
+                    options={{
+                        title: 'Albums',
+                        tabBarIcon: ({ focused }) => (
+                            <Icon name={focused ? 'albums' : 'albums-outline'} size={25} color="#FFF" />
+                        ),
+                    }}
+                />
+            </Tabs>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black', // Ensures the background color is black
+    },
+    bottomNav: {
+        height: 60,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingVertical: 10,
+        backgroundColor: 'rgb(10,0,10)',
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
+        borderLeftColor: '#ffffff',
+        borderLeftWidth: 1,
+        borderRightColor: '#ffffff',
+        borderRightWidth: 1,
+        borderTopRightRadius: 50,
+        borderTopLeftRadius: 50,
+        overflow: 'hidden', // Ensures child components don't overflow
+    },
+    headerTitle: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        marginTop: 3,
+        color: '#ffffff',
+    },
+});

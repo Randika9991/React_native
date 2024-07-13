@@ -6,7 +6,7 @@ import Loading from "./Loading";
 export default function Index() {
     return (
         <View style={{ flex: 1 }}>
-            <Link href="/Player" style={{ flex: 1 }}>
+            <Link href="/LoginScreen" style={{ flex: 1 }}>
                 <Loading />
 
 
