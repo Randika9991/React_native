@@ -18,7 +18,7 @@ This project is a music player app that allows users to play and manage their mu
 ## Features
 - Play and pause music
 - Skip to the next or previous track
-- Browse songs by albums, artists, and playlists
+- Browse songs by library, artists, and playlists
 - Search for songs in the library
 - Shuffle and repeat functionalities
 

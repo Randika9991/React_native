@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Colors } from "../../constants/Colors";
 import { useColorScheme } from "../../hooks/useColorScheme";
 import { StyleSheet, View } from "react-native";
+import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
+
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -35,14 +37,20 @@ export default function TabLayout() {
                     }}
                 />
                 <Tabs.Screen
-                    name="Albums"
+                    name="Library"
                     options={{
-                        title: 'Albums',
+                        title: 'Library',
                         tabBarIcon: ({ focused }) => (
-                            <Icon name={focused ? 'albums' : 'albums-outline'} size={25} color="#FFF" />
+                            <MaterialCommunityIcons
+                                name={focused ? 'music-box' : 'music-box-outline'}
+                                size={25}
+                                color={focused ? '#FFF' : '#fcfcfc'} // Change color based on focus
+                            />
                         ),
                     }}
                 />
+
+
             </Tabs>
         </View>
     );

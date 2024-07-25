@@ -90,15 +90,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 24,
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#ffffff',
+        marginTop: 30,
+        padding: 10,
     },
     headerTitle: {
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold',
-
     },
     section: {
         marginBottom: 20,
@@ -147,12 +145,12 @@ const styles = StyleSheet.create({
     },
     playlistCard: {
         alignItems: 'center',
-        marginHorizontal: 10, // Add horizontal margin to create space between items
+        marginHorizontal: 20, // Add horizontal margin to create space between items
         width: 100, // Set a fixed width
     },
     playlistImage: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
         borderRadius: 10,
     },
     playlistLabel: {
