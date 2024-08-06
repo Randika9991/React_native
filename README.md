@@ -39,21 +39,21 @@ To get a local copy up and running, follow these steps:
    
 ## Screenshots
 
-   1. login page 
+   1. loading page 
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/login%20screen.png)
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_160203_Expo%20Go.jpg)
 
-   2. SingUp page 
+   2. song page 
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233405.png)
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142811_Expo%20Go.jpg)
 
-   2. Home page 
+   2. player page 
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233427.png)
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142752_Expo%20Go.jpg)
 
-   4. Player 
+   4. Library page 
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233437.png)
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142955_Expo%20Go.jpg)
 
 ## Contributing
 
