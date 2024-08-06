@@ -40,25 +40,17 @@ To get a local copy up and running, follow these steps:
    ```sh
    cd React_native_project
 
-Install dependencies
+2. Install dependencies
    ```sh
    npm install
-      # or
-   ```sh
-  yarn install
-
-Start the Development Server
-
+   
+1. Start the development server
    ```sh
    npm start
-      # or
 
-   ```sh
-   yarn start
+### Screenshots
 
-## Screenshots
-
-   1. loading page 
+   1. loading page
 
    ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_160203_Expo%20Go.jpg)
 
