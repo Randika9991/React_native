@@ -58,7 +58,7 @@ To get a local copy up and running, follow these steps:
 
    ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142811_Expo%20Go.jpg)
 
-   2. player page 
+   3. player page 
 
    ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142752_Expo%20Go.jpg)
 
