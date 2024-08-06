@@ -35,8 +35,19 @@ To get a local copy up and running, follow these steps:
 
 ## Usage
 
-   ..
-   
+   Install Dependencies
+
+   cd React_native_project
+   npm install
+      # or
+   yarn install
+
+   Start the Development Server
+
+   npm start
+      # or
+   yarn start
+
 ## Screenshots
 
    1. loading page 
