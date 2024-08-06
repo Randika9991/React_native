@@ -1,192 +1,222 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Link,router} from "expo-router";
+import React, { useContext, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, Dimensions, Easing, Animated } from 'react-native';
+import Slider from "@react-native-community/slider";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import color from '../../constants/MyColor';
+import Screen from '../../components/Screen';
+import PlayerButton from '../../components/PlayerButton';
+import { AudioContext } from '../context/AudioProvider';
+import { pause, play, seekTo, stop } from "../../constants/AudioController";
 
-const playlist = [
-    { id: '1', name: 'EDM', songName: 'kella masurata dfdfg sgdfgdsgdsfjdngjnjgdgndsngds', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134416.png?raw=true' },
-    { id: '2', name: 'TRAP', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134451.png?raw=true' },
-    { id: '3', name: 'LO-FI', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134533.png?raw=true' },
-    { id: '4', name: 'DRILL', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134627.png?raw=true' },
+const { width } = Dimensions.get('window');
 
-];
+const Player = () => {
+    const {
+        audioFiles,
+        selectAudio,
+        currentPlay,
+        currentAudioName,
+        totalAudioCount,
+        isPlaying,
+        setIsPlaying,
+        playbackObj,
+        playBackDuration,
+        playBackPosition,
+        setPlayBackPosition,
+        loadPreviousAudioPlay,
+        handleStop
+    } = useContext(AudioContext);
 
-const Recent = [
-    { id: '1', name: 'YOHANI', songName: 'deep', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134416.png?raw=true' },
-    { id: '2', name: 'IRAJ', songName: 'lets me', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134627.png?raw=true' },
-    { id: '3', name: 'EDWARD', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134533.png?raw=true' },
-    { id: '4', name: 'TRAP', songName: 'kella', image: 'https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot%202024-07-12%20134451.png?raw=true' },
+    const fadeAnim = useRef(new Animated.Value(0)).current;
 
-];
+    useEffect(() => {
+        fadeAnim.setValue(0); // Reset the animation value to 0
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+        }).start();
+    }, [currentAudioName]);
 
-const HomeScreen = ({ navigation }) => {
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (playbackObj && isPlaying) {
+                playbackObj.getStatusAsync().then(status => {
+                    if (status.isLoaded) {
+                        setPlayBackPosition(status.positionMillis);
+                    }
+                });
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [playbackObj, isPlaying]);
+
+    const handlePlayPause = async () => {
+        try {
+            if (playbackObj === null) {
+                await loadPreviousAudioPlay();
+            } else {
+                const status = await playbackObj.getStatusAsync();
+                if (status.positionMillis === status.durationMillis) {
+                    await seekTo(playbackObj, 0);
+                    await play(playbackObj);
+                    setIsPlaying(true);
+                } else {
+                    if (isPlaying) {
+                        await pause(playbackObj);
+                        setIsPlaying(false);
+                    } else {
+                        await play(playbackObj);
+                        setIsPlaying(true);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error inside play/pause handler:', error);
+        }
+    };
+
+    const calculateSeekBar = () => {
+        if (playBackPosition !== null && playBackDuration !== null) {
+            return playBackPosition / playBackDuration;
+        }
+        return 0;
+    };
+
+    const handleSeekBarChange = async value => {
+        try {
+            if (playbackObj) {
+                const newPosition = value * playBackDuration;
+                await seekTo(playbackObj, newPosition);
+                setPlayBackPosition(newPosition);
+                const status = await playbackObj.getStatusAsync();
+                if (status.isPlaying) {
+                    setIsPlaying(true);
+                } else {
+                    setIsPlaying(false);
+                }
+            }
+        } catch (error) {
+            console.error('seekTo error:', error);
+        }
+    };
+
+    const handlePrev = async () => {
+        if (playbackObj) {
+            const newIndex = currentPlay - 1 < 0 ? audioFiles.length - 1 : currentPlay - 1;
+            const prevAudio = audioFiles[newIndex];
+            await selectAudio(prevAudio, newIndex);
+        }
+    };
+
+    const handleNext = async () => {
+        if (playbackObj) {
+            const newIndex = currentPlay + 1 >= audioFiles.length ? 0 : currentPlay + 1;
+            const nextAudio = audioFiles[newIndex];
+            await selectAudio(nextAudio, newIndex);
+        }
+    };
+
+    // Helper function to format time
+    const formatTime = millis => {
+        const minutes = Math.floor(millis / 60000);
+        const seconds = Math.floor((millis % 60000) / 1000);
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    };
+
+    const removeMp3Extension = (name) => {
+        if (name && typeof name === 'string') {
+            return name.replace(/\.mp3$/i, '');
+        }
+        // Return the name unchanged if it's not a valid string
+        return name;
+    };
+
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Icon name="menu" size={30} color="#fff" />
-                <Text style={styles.headerTitle}>Music player</Text>
-                <Icon name="search" size={30} color="#fff" />
+        <Screen>
+            <View style={styles.container}>
+                <Text style={styles.audioCount}>{currentPlay + 1}/{totalAudioCount}</Text>
+                <View style={styles.midImageContainer}>
+                    <MaterialCommunityIcons name="music-circle" size={300} color={isPlaying ? color.MAIN_COLOR : color.FONT_MEDIUM} />
+                </View>
+                <View style={styles.audioPlayerContainer}>
+                    <Animated.Text numberOfLines={1} style={[styles.audioTitle, { opacity: fadeAnim }]}>
+                        {removeMp3Extension(currentAudioName)}
+                    </Animated.Text>
+                </View>
+                <View style={styles.timeContainer}>
+                    <Text style={styles.timeText}>{formatTime(playBackPosition)}</Text>
+                    <Text style={styles.timeText}>{formatTime(playBackDuration)}</Text>
+                </View>
+                <Slider
+                    style={{ width, height: 40 }}
+                    value={calculateSeekBar()}
+                    minimumValue={0}
+                    maximumValue={1}
+                    minimumTrackTintColor="#ff00f2"
+                    maximumTrackTintColor="#333"
+                    thumbTintColor="#ff00f2"
+                    onValueChange={handleSeekBarChange}
+                />
+                <View style={styles.audioContainer}>
+                    <PlayerButton onPress={handlePrev} iconType="PREV" size={20}/>
+                    <PlayerButton
+                        onPress={handlePlayPause}
+                        style={{ marginHorizontal: 30 }}
+                        iconType={isPlaying ? 'PLAY' : 'PAUSE'}
+                    />
+                    <PlayerButton onPress={handleNext} iconType="NEXT" size={20}/>
+                </View>
             </View>
-
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Text style={styles.sectionTitle}>Favorites</Text>
-                    </View>
-                    <View style={styles.favoritplaylist}>
-                        <TouchableOpacity style={styles.favoriteCard}>
-                            <Image source={require('../../assets/images/home/favorite.png')} style={styles.favoriteImageCard} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.favoriteCard} onPress={()=>router.push('/Player')}>
-                            <Image source={require('../../assets/images/home/resent.png')} style={styles.favoriteImageCard} />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Text style={styles.sectionTitle}>My playlist</Text>
-                        <Icon name="chevron-forward" size={24} color="#fff" />
-                    </View>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScrollContainer}>
-                        {playlist.map((item) => (
-                            <TouchableOpacity key={item.id} style={styles.playlistCard}>
-                                <Image source={{ uri: item.image }} style={styles.playlistImage} />
-                                <Text style={styles.playlistLabel}>{item.name}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Text style={styles.sectionTitle}>Recently Songs</Text>
-                        <Icon name="chevron-forward" size={24} color="#fff" />
-                    </View>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScrollContainer}>
-                        {Recent.map((item) => (
-                            <TouchableOpacity key={item.id} style={styles.playlistCard}>
-                                <Image source={{ uri: item.image }} style={styles.playlistImage} />
-                                <Text style={styles.playlistLabel}>{item.songName}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-            </ScrollView>
-        </View>
+        </Screen>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
-        padding: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'black',
     },
-    scrollContainer: {
-        padding: 10,
+    audioCount: {
+        textAlign: 'right',
+        padding: 15,
+        color: color.FONT_LIGHT,
+        fontSize: 14,
     },
-    header: {
+    midImageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    audioPlayerContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    audioTitle: {
+        fontSize: 16,
+        color: color.FONT,
+        padding: 15,
+    },
+    timeContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: 30,
-        padding: 10,
+        width: width - 40,
+        paddingHorizontal: 10,
     },
-    headerTitle: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold',
+    timeText: {
+        fontSize: 14,
+        color: color.FONT,
     },
-    section: {
-        marginBottom: 20,
-    },
-    sectionHeader: {
+    audioContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
-    },
-    sectionTitle: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    // Favorite
-    favoritplaylist: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    favoriteCard: {
-        alignItems: 'center',
-
-        //add shadow
-        shadowColor:'#ffffff',
-        shadowOffset:{width:0, height: 5},
-        shadowOpacity:0.9,
-        shadowRadius:5,
-
-    },
-    favoriteImageCard: {
-        width: 170,
-        height: 100,
-        borderRadius: 10,
-    },
-    favoriteLabel: {
-        color: '#fff',
-        marginTop: 5,
-    },
-
-
-    // Playlist
-    playlist: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    playlistCard: {
-        alignItems: 'center',
-        marginHorizontal: 20, // Add horizontal margin to create space between items
-        width: 100, // Set a fixed width
-    },
-    playlistImage: {
-        width: 120,
-        height: 120,
-        borderRadius: 10,
-    },
-    playlistLabel: {
-        color: '#fff',
-        marginTop: 5,
-        width: 100,
-        textAlign: 'center',
-    },
-    bottomNav: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        borderTopColor: '#ffffff',
-        borderTopWidth: 1,
-
-        borderLeftColor: '#ffffff',
-        borderLeftWidth: 2,
-
-        borderRightColor: '#ffffff',
-        borderRightWidth: 2,
-
-        borderTopRightRadius: 50,
-        borderTopLeftRadius: 50,
-    },
-    navItem: {
-        alignItems: 'center',
-    },
-    navText: {
-        fontSize: 12,
-        marginTop: 3,
-        color:'#ffffff',
-    },
-    horizontalScrollContainer: {
-        paddingHorizontal: 5,
+        marginTop: 25,
     },
 });
 
-export default HomeScreen;
+export default Player;

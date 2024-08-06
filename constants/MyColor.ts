@@ -6,4 +6,6 @@ export default {
     MODAL_BG: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent black for modal background
     ACTIVE_BG: '#ff9800',    // Bright orange for active background
     ACTIVE_FONT: '#ffffff',  // White font color for active state
+    MAIN_COLOR:'#FF00F2FF',
+    // backgroundColor: '#151926',
 };
