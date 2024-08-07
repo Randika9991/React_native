@@ -18,7 +18,7 @@ This project is a music player app that allows users to play and manage their mu
 ## Features
 - Play and pause music
 - Skip to the next or previous track
-- Browse songs by library, artists, and playlists
+- Browse songs by library
 - Search for songs in the library
 - Shuffle and repeat functionalities
 
@@ -35,25 +35,36 @@ To get a local copy up and running, follow these steps:
 
 ## Usage
 
-   ..
+### Install Dependencies
+1. Navigate to the project directory
+   ```sh
+   cd React_native_project
+
+2. Install dependencies
+   ```sh
+   npm install
    
-## Screenshots
+1. Start the development server
+   ```sh
+   npm start
 
-   1. login page 
+### Screenshots
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/login%20screen.png)
+   1. loading page
 
-   2. SingUp page 
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_160203_Expo%20Go.jpg)
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233405.png)
+   2. song page 
 
-   2. Home page 
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142811_Expo%20Go.jpg)
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233427.png)
+   3. player page 
 
-   4. Player 
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142752_Expo%20Go.jpg)
 
-   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240713-233437.png)
+   4. Library page 
+
+   ![Example Image](https://github.com/Randika9991/React_native_project/blob/main/imagess/Screenshot_20240806_142955_Expo%20Go.jpg)
 
 ## Contributing
 
