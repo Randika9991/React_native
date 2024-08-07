@@ -64,7 +64,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black', // Ensures the background color is black
+        backgroundColor: 'black',
         paddingBottom: 17,
     },
     bottomNav: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
-        overflow: 'hidden', // Ensures child components don't overflow
+        overflow: 'hidden',
     },
     headerTitle: {
         fontWeight: 'bold',

@@ -130,7 +130,6 @@ const Player = () => {
         if (name && typeof name === 'string') {
             return name.replace(/\.mp3$/i, '');
         }
-        // Return the name unchanged if it's not a valid string
         return name;
     };
 

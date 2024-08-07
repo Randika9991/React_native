@@ -8,7 +8,6 @@ const PlayListInputModal = ({ visible, onClose ,onSubmit }) => {
 
     function handleOnSubmit() {
         if (!playListName.trim()) {
-            // Call onSubmit prop with the playlist name
             setPlayListName('');  // Clear the input field
             onClose();  // Close the modal
         } else {

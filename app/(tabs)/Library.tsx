@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         marginBottom: 1,
         borderWidth: 1,
         borderColor: 'white',
-        borderTopWidth: 0, // Remove top border
+        borderTopWidth: 0,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         alignItems: 'center',

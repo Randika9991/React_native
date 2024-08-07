@@ -62,9 +62,6 @@ const Songs = () => {
     }, [playbackObj]);
 
     const handleAudioPress = async (audio) => {
-        // console.log('handleAudioPress called with audio:', audio);
-        // console.log('Current playbackObj:', playbackObj);
-
         try {
             if (currentAudio && currentAudio.uri === audio.uri) {
                 if (playbackObj) {
